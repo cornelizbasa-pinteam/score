@@ -2,5 +2,9 @@
   {
     "version": "main",
     "url": "https://cornelizbasa-pinteam.github.io/score/main/"
+  },
+  {
+    "version": "pr-1",
+    "url": "https://cornelizbasa-pinteam.github.io/score/pr-1/"
   }
 ]
