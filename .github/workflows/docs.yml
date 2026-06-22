@@ -53,6 +53,8 @@ jobs:
   pre_docs:
     needs: make_image
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/ubuntu-tree
     steps:
       - name: Create distributed
         run: |
