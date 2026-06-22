@@ -42,7 +42,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: test
-          path: ./bla
+          path: .
       - name: Show workspace
         run: |
           pwd
