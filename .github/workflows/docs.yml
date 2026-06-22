@@ -73,12 +73,14 @@ jobs:
   docs:
     needs: pre_docs
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/ubuntu-tree
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: test
       - run: |
-          ls -Rali .
+          tree .
   # docs-build:
   #   needs: pre_docs
   #   uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@829b3e11ccbf924a5782f7bfed647cb1619fdf78 # v0.0.1
