@@ -20,15 +20,15 @@ permissions:
   id-token: write
 
 on:
-  pull_request_target:
-    types: [opened, reopened, synchronize] # Handles forked PRs
+  # pull_request_target:
+  #   types: [opened, reopened, synchronize] # Handles forked PRs
   push:
     branches:
       - main # docs are built only on push to main branch, for feature branches there are PR builds
-  merge_group:
-    types: [checks_requested]
-  release:
-    types: [created]
+  # merge_group:
+  #   types: [checks_requested]
+  # release:
+  #   types: [created]
 
 jobs:
   make_image:
@@ -61,6 +61,8 @@ jobs:
           mkdir -p bla
           echo test > bla/test.txt
           cat bla/test.txt
+          echo 'echo abc' > bla/test.sh
+          chmod +x bla/test.sh
       - uses: actions/upload-artifact@v4
         with:
           name: test
@@ -81,6 +83,7 @@ jobs:
           name: test
       - run: |
           tree .
+          ./bla/test.sh
   # docs-build:
   #   needs: pre_docs
   #   uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@829b3e11ccbf924a5782f7bfed647cb1619fdf78 # v0.0.1
