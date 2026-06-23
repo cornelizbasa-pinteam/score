@@ -38,7 +38,6 @@ on:
     #   types: [created]
 env:
   ARTIFACT_NAME: "test"
-  ARCHIVE_NAME: "bla.tgz"
 
 jobs:
   make_image:
@@ -48,7 +47,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Login to CR
         uses: docker/login-action@v3
         with:
@@ -70,6 +69,7 @@ jobs:
     container:
       image: ghcr.io/${{ github.repository }}/ubuntu-tree
     steps:
+      - uses: actions/checkout@v4
       - name: Create distributed
         run: |
           mkdir -p bla
@@ -77,11 +77,10 @@ jobs:
           cat bla/test.txt
           echo 'echo abc' > bla/test.sh
           chmod +x bla/test.sh
-      - run: tar czf $ARCHIVE_NAME ./bla
-      - uses: actions/upload-artifact@v7
+      - uses: ./.github/actions/preserve
         with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: ${{ env.ARCHIVE_NAME }}
+          artifact_name: ${{ env.ARTIFACT_NAME }}
+          path: ./bla
       - name: Show workspace
         run: |
           pwd
@@ -94,10 +93,10 @@ jobs:
     container:
       image: ghcr.io/${{ github.repository }}/ubuntu-tree
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preserve
         with:
-          name: ${{ env.ARTIFACT_NAME }}
-      - run: tar xvfz $ARCHIVE_NAME
+          artifact_name: ${{ env.ARTIFACT_NAME }}
       - run: |
           tree .
           ./bla/test.sh
