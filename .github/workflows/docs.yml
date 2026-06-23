@@ -28,7 +28,10 @@ on:
   # merge_group:
   #   types: [checks_requested]
   # release:
-  #   types: [created]
+    #   types: [created]
+env:
+  ARTIFACT_NAME: "test"
+  ARCHIVE_NAME: "bla.tgz"
 
 jobs:
   make_image:
@@ -63,10 +66,11 @@ jobs:
           cat bla/test.txt
           echo 'echo abc' > bla/test.sh
           chmod +x bla/test.sh
+      - run: tar czf $ARCHIVE_NAME ./bla
       - uses: actions/upload-artifact@v4
         with:
-          name: test
-          path: .
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.ARCHIVE_NAME }}
       - name: Show workspace
         run: |
           pwd
@@ -80,7 +84,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: test
+          name: ${{ env.ARTIFACT_NAME }}
+      - run: tar xvfz $ARCHIVE_NAME
       - run: |
           tree .
           ./bla/test.sh
