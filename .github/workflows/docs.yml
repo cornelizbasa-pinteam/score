@@ -100,14 +100,3 @@ jobs:
       - run: |
           tree .
           ./bla/test.sh
-  # docs-build:
-  #   needs: pre_docs
-  #   uses: eclipse-score/cicd-workflows/.github/workflows/docs.yml@829b3e11ccbf924a5782f7bfed647cb1619fdf78 # v0.0.1
-  #   permissions:
-  #     contents: write
-  #     pages: write
-  #     pull-requests: write
-  #     id-token: write
-  #   with:
-  #     bazel-target: "//:docs -- --github_user=${{ github.repository_owner }} --github_repo=${{ github.event.repository.name }}"
-  #     retention-days: 3
