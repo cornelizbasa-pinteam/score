@@ -22,6 +22,13 @@ permissions:
 on:
   # pull_request_target:
   #   types: [opened, reopened, synchronize] # Handles forked PRs
+  workflow_dispatch:
+    inputs:
+      create_docker_image:
+        description: '[Re]create the docker image ubuntu-test'
+        required: true
+        type: boolean
+        default: false
   push:
     branches:
       - main # docs are built only on push to main branch, for feature branches there are PR builds
@@ -35,6 +42,7 @@ env:
 
 jobs:
   make_image:
+    if: ${{ inputs.create_docker_image }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -54,6 +62,9 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}/ubuntu-tree
   pre_docs:
+    if: |
+      always() &&
+      (needs.make_image.result == 'success' || needs.make_image.result == 'skipped')
     needs: make_image
     runs-on: ubuntu-latest
     container:
@@ -77,6 +88,7 @@ jobs:
           echo "$GITHUB_WORKSPACE"
           ls -Rali
   docs:
+    if: ${{ !failure() && !cancelled() }}
     needs: pre_docs
     runs-on: ubuntu-latest
     container:
