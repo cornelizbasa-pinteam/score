@@ -82,7 +82,7 @@ jobs:
     container:
       image: ghcr.io/${{ github.repository }}/ubuntu-tree
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: ${{ env.ARTIFACT_NAME }}
       - run: tar xvfz $ARCHIVE_NAME
