@@ -77,7 +77,7 @@ jobs:
           cat bla/test.txt
           echo 'echo abc' > bla/test.sh
           chmod +x bla/test.sh
-      - uses: cornelizbasa-pinteam/actionlib/preserve@v1
+      - uses: cornelizbasa-pinteam/actionlib/preserve@v2
         with:
           artifact_name: ${{ env.ARTIFACT_NAME }}
           path: ./bla
@@ -94,7 +94,7 @@ jobs:
       image: ghcr.io/${{ github.repository }}/ubuntu-tree
     steps:
       - uses: actions/checkout@v7
-      - uses: cornelizbasa-pinteam/actionlib/preserve@v1
+      - uses: cornelizbasa-pinteam/actionlib/preserve@v2
         with:
           artifact_name: ${{ env.ARTIFACT_NAME }}
       - run: |
